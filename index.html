@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLAYUS - AI 기반 영상·아트웍 크리에이티브 스튜디오</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 100%;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 15px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .logo {
+            text-align: center;
+        }
+        
+        .logo svg {
+            width: 60px;
+            height: 60px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+        }
+        
+        .section {
+            padding: 40px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 30px;
+            letter-spacing: -0.02em;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 0;
+            background: linear-gradient(135deg, #000 0%, #111 100%);
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 200;
+            margin-bottom: 20px;
+            letter-spacing: -0.05em;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+        
+        .hero .description {
+            font-size: 0.9rem;
+            color: #888;
+        }
+        
+        /* About Section */
+        .about-content {
+            display: grid;
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .about-text {
+            text-align: center;
+            color: #ccc;
+            line-height: 1.8;
+        }
+        
+        .company-info {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #333;
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .info-value {
+            color: #ccc;
+            text-align: right;
+        }
+        
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .service-item {
+            padding: 25px;
+            border: 1px solid #333;
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.3s ease;
+        }
+        
+        .service-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+        }
+        
+        .service-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .service-desc {
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        
+        /* Gallery Section */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #333;
+            background: #111;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.02);
+            border-color: #555;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover img {
+            opacity: 0.8;
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+        
+        .gallery-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .gallery-desc {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+        
+        /* Instagram Section */
+        .instagram-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .instagram-item {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #333;
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.3s ease;
+        }
+        
+        .instagram-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+        
+        /* Contact Section */
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .contact-info {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .contact-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #333;
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .contact-form {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-label {
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .form-input,
+        .form-textarea {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 0;
+        }
+        
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #555;
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .form-button {
+            padding: 15px;
+            background: #fff;
+            color: #000;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .form-button:hover {
+            background: #ccc;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+        
+        .modal-image {
+            width: 100%;
+            height: auto;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-item,
+            .contact-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="https://lh3.googleusercontent.com/d/18yDtX9iIilXtNxxc4dtDOxOjboVV4JwN" / width=200>
+                    <defs>
+                        <linearGradient id="cubeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#fff;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#ccc;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#999;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <!-- Cube faces -->
+                    <path d="M20 30 L50 15 L80 30 L50 45 Z" fill="url(#cubeGradient)"/>
+                    <path d="M20 30 L20 60 L50 75 L50 45 Z" fill="#666"/>
+                    <path d="M50 45 L50 75 L80 60 L80 30 Z" fill="#888"/>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h1>P L A Y · W I T H · U S</h1>
+                <p class="subtitle">AI 기반 영상·아트웍 크리에이티브 스튜디오</p>
+                <p class="description">AI Film | AI ADS | AI ARTWORK | AI BRANDING | 3D VFX</p>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">About / 회사 소개</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>PLAYUS는 <br>AI 기술과 3D VFX를 활용한 영화, 광고, 아트웍, 방송, 유튜브 등 <br>다양한 영상 콘텐츠를 제작하는 크리에이티브 스튜디오입니다.</p>
+                    </div>
+                    <div class="company-info">
+                        <div class="info-item">
+                            <span class="info-label">대표 [제작파트]</span>
+                            <span class="info-value">황주현 (전 SBS, tvN PD, 동서대 겸임교수)</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">공동대표 [마케팅기획파트]</span>
+                            <span class="info-value">방수진 (기획·마케팅·영업, 해외유통, 뷰티브랜드)</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">위치</span>
+                            <span class="info-value">부산 영도구 와치로 31 본관</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Services / 주요 서비스</h2>
+                <div class="services-grid">
+                    <div class="service-item">
+                        <div class="service-name">AI 영화</div>
+                        <div class="service-desc">인공지능 기반 영화 기획·제작</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">AI 광고</div>
+                        <div class="service-desc">AI 크리에이티브 광고 영상</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">AI 아티웍</div>
+                        <div class="service-desc">AI로 창작하는 디지털 아트웍</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">3D VFX</div>
+                        <div class="service-desc">3D 그래픽·특수효과를 접목한 영상</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">방송/유튜브</div>
+                        <div class="service-desc">방송 프로그램, 유튜브 등 다양한 영상 콘텐츠 제작</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Gallery / 갤러리</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" onclick="openModal('https://lh3.googleusercontent.com/d/1rkICDOc5Oex7Jlep9KtELNdIycu83Efn')">
+                        <img src="https://lh3.googleusercontent.com/d/1rkICDOc5Oex7Jlep9KtELNdIycu83Efn" /  alt="AI Film 포트폴리오">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">AI Film 제작 포트폴리오</div>
+                            <div class="gallery-desc"></div>
+                        </div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal('https://lh3.googleusercontent.com/d/120ZsHnX1OtefwODaK3OMU0GZR_eNKSJk')">
+                        <img src="https://lh3.googleusercontent.com/d/120ZsHnX1OtefwODaK3OMU0GZR_eNKSJk" /  alt="AI Film 포트폴리오">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">AI Film 제작 포트폴리오</div>
+                            <div class="gallery-desc"></div>
+                        </div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal('https://lh3.googleusercontent.com/d/1dS8JjMWrtKVU5JJ8YS-YbD0qRQKmLRZl')">
+                        <img src="https://lh3.googleusercontent.com/d/1dS8JjMWrtKVU5JJ8YS-YbD0qRQKmLRZl" /  alt="AI Film 포트폴리오">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">AI Film 제작 포트폴리오</div>
+                            <div class="gallery-desc"></div>
+                        </div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal('https://lh3.googleusercontent.com/d/1wic_nqNENqPKfRKtmZJ4LlZL8tsL2vdj')">
+                        <img src="https://lh3.googleusercontent.com/d/1wic_nqNENqPKfRKtmZJ4LlZL8tsL2vdj" /  alt="AI Film 포트폴리오">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">AI Film 제작 포트폴리오</div>
+                            <div class="gallery-desc"></div>
+                        </div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal('https://lh3.googleusercontent.com/d/1AXixzexvLr4qarp-WNEj8ZbttkgZKi5I')">
+                        <img src="https://lh3.googleusercontent.com/d/1AXixzexvLr4qarp-WNEj8ZbttkgZKi5I" /  alt="AI Film 포트폴리오">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">AI Film 제작 포트폴리오</div>
+                            <div class="gallery-desc"></div>
+                        </div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal('https://lh3.googleusercontent.com/d/1ZpPHSNqYjdru0mk1HJ4IDz7yn9ZOa4qz')">
+                        <img src="https://lh3.googleusercontent.com/d/1ZpPHSNqYjdru0mk1HJ4IDz7yn9ZOa4qz" /  alt="AI Film 포트폴리오">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">AI Film 제작 포트폴리오</div>
+                            <div class="gallery-desc"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Instagram Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title"><b>Instagram</b></h2>
+                <div class="instagram-content">
+                    <p style="margin-bottom: 20px; color: #ccc;">최신 프로젝트와 아트웍 실시간 업데이트</p>
+                    <a href="https://www.instagram.com/playus.official/" target="_blank" class="instagram-item">
+                        @playus.official
+                    </a>
+                    <a href="https://www.instagram.com/juhyuninbusan/" target="_blank" class="instagram-item">
+                        @juhyuninbusan (대표 황주현님의 개인 아트웍)
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title" b>Contact / 문의</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <span class="info-label">전화</span>
+                            <span class="info-value">010-4365-2538</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="info-label">대표전화</span>
+                            <span class="info-value">070-4123-9000</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="info-label">팩스</span>
+                            <span class="info-value">0504-190-2538</span>
+                        </div>
+			<div class="contact-item">
+                            <span class="info-label">이메일</span>
+                            <span class="info-value">playusofficial@gmail.com</span>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Copyright © 2025 PLAYUS. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <img class="modal-image" id="modalImage" alt="Gallery Image">
+        </div>
+    </div>
+
+    <script>
+        function openModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = imageSrc;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('문의가 접수되었습니다. 빠른 시일 내에 연락드리겠습니다.');
+            this.reset();
+        });
+
+        // Smooth scrolling for mobile
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
